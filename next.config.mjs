@@ -6,6 +6,7 @@ const nextConfig = {
 	images: {
 		domains: ["naszsklep-api.vercel.app"],
 	},
+	staticPageGenerationTimeout: 300000,
 };
 
 export default nextConfig;
