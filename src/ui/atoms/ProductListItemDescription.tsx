@@ -1,4 +1,4 @@
-import { type ProductItemType } from "@/ui/types";
+import { type ProductItemType } from "@/types";
 import { formatMoney } from "@/utils";
 
 type ProductListItemDescriptionProps = {
@@ -6,12 +6,12 @@ type ProductListItemDescriptionProps = {
 };
 
 export const ProductListItemDescription = ({
-	product: { name, category, price },
+	product: { title, category, price },
 }: ProductListItemDescriptionProps) => {
 	return (
 		<div className="mt-2 flex justify-between">
 			<div>
-				<h3 className="text-sm font-semibold text-gray-700">{name}</h3>
+				<h3 className="text-sm font-semibold text-gray-700">{title}</h3>
 				<p className="text-sm text-gray-500">
 					<span className="sr-only">Kategoria: </span>
 					{category}
