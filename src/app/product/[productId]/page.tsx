@@ -1,6 +1,26 @@
+import { type Metadata } from "next";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { type ProductItemType } from "@/types";
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { productId: string };
+}): Promise<Metadata> {
+	const res = await fetch("https://naszsklep-api.vercel.app/api/products/" + params.productId);
+	const product = (await res.json()) as ProductItemType;
+
+	return {
+		title: `${product.title} - Sklep internetowy`,
+		description: product.description,
+		openGraph: {
+			title: `${product.title} - Sklep internetowy`,
+			description: product.description,
+			images: product.image,
+		},
+	};
+}
 
 export default async function ProductPage({ params }: { params: { productId: string } }) {
 	const response = await fetch("https://naszsklep-api.vercel.app/api/products/" + params.productId);

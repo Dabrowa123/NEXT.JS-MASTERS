@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { type Route } from "next";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 export const NavBar = () => {
@@ -17,7 +18,7 @@ export const NavBar = () => {
 				</li>
 				<li>
 					<ActiveLink
-						href="/products"
+						href={"/products/1" as Route}
 						className={clsx(`text-white hover:text-blue-600`)}
 						activeClassName="text-blue-400"
 					>
