@@ -1,7 +1,9 @@
+import Image from "next/image";
+
 export const ProductCoverImage = ({ src, alt }: { src: string; alt: string }) => {
 	return (
 		<div className="hover: aspect-square overflow-hidden rounded-md border bg-slate-100 bg-slate-50">
-			<img
+			<Image
 				width={300}
 				height={300}
 				alt={alt}
