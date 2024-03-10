@@ -1,28 +1,26 @@
 import React from "react";
-import clsx from "clsx";
 import { type Route } from "next";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 export const NavBar = () => {
 	return (
-		<nav className="flex items-center justify-between bg-gray-800 px-8 py-4 text-white">
+		<nav
+			role="navigation"
+			className="flex items-center justify-between bg-gray-800 px-8 py-4 text-white"
+		>
 			<ul className="flex space-x-4">
 				<li>
-					<ActiveLink
-						href="/"
-						className={clsx(`text-blue-400 hover:text-blue-600`)}
-						activeClassName="text-white"
-					>
-						Homepage
+					<ActiveLink href="/" activeClassName="text-blue-400 underline" match={true}>
+						Home
 					</ActiveLink>
 				</li>
 				<li>
 					<ActiveLink
-						href={"/products/1" as Route}
-						className={clsx(`text-white hover:text-blue-600`)}
-						activeClassName="text-blue-400"
+						href={"/products" as Route}
+						activeClassName="text-blue-400 underline"
+						match={true}
 					>
-						Products
+						All Products
 					</ActiveLink>
 				</li>
 			</ul>

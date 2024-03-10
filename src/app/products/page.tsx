@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { type ProductItemType } from "@/types";
@@ -29,16 +28,10 @@ export async function generateStaticParams() {
 	return staticParams;
 }
 
-export default async function ProductsPage({ params }: { params: { page: number } }) {
+export default async function ProductsPage() {
 	const totalPages = (await generateStaticParams()).length;
-	const response = await fetch(
-		"https://naszsklep-api.vercel.app/api/products?take=20&offset=" + params.page,
-	);
+	const response = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
 	const products = (await response.json()) as ProductItemType[];
-
-	if (!params.page || isNaN(Number(params.page)) || Number(params.page) <= 0) {
-		return redirect("/products/1");
-	}
 
 	return (
 		<div>
