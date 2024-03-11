@@ -1,7 +1,7 @@
+import { type ProductListItemFragmentFragment } from "@/gql/graphql";
 import { ProductListItem } from "@/ui/molecules/ProductListItem";
-import { type ProductItemType } from "@/types";
 
-export const ProductList = async ({ products }: { products: ProductItemType[] }) => {
+export const ProductList = ({ products }: { products: ProductListItemFragmentFragment[] }) => {
 	return (
 		<ul
 			className="sm-grid-cols-1 grid grid-cols-1 gap-8 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
