@@ -1,11 +1,13 @@
 import React from "react";
 import { ShoppingCart } from "lucide-react";
 import type { Route } from "next";
+import { SearchBox } from "@/ui/atoms/SearchBox";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 const navLinks = [
 	{ href: "/", label: "Home", match: true },
 	{ href: "/products", label: "All Products", match: false },
+	{ href: "/collections", label: "Collections", match: false },
 	{ href: "/categories", label: "Categories", match: false },
 ];
 
@@ -29,6 +31,7 @@ export async function NavBar() {
 
 				<div className="flex flex-1 flex-col gap-x-2 pb-4 lg:flex-row lg:items-center lg:pb-0">
 					<ShoppingCart />
+					<SearchBox />
 				</div>
 			</div>
 		</nav>
