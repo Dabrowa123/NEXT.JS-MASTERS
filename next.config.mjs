@@ -3,8 +3,17 @@ const nextConfig = {
 	experimental: {
 		typedRoutes: true,
 	},
+	// images: {
+	// 	domains: ["naszsklep-api.vercel.app"],
+	// },
 	images: {
-		domains: ["naszsklep-api.vercel.app"],
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "**.fna.fbcdn.net",
+				pathname: "/v/**",
+			},
+		],
 	},
 	staticPageGenerationTimeout: 300000,
 };

@@ -1,0 +1,7 @@
+query ProductsGetBySearch($search: String!) {
+	products(search: $search) {
+		data {
+			...ProductListItemFragment
+		}
+	}
+}

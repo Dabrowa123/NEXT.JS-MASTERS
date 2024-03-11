@@ -1,0 +1,7 @@
+query ProductGetByPage($skip: Int) {
+	products(take: 4, skip: $skip) {
+		data {
+			...ProductListItemFragment
+		}
+	}
+}

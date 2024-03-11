@@ -1,0 +1,7 @@
+query ProductsGetList {
+	products(take: 14) {
+		data {
+			...ProductListItemFragment
+		}
+	}
+}
