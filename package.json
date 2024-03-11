@@ -10,6 +10,7 @@
 		"codegen": "graphql-codegen --config .graphqlrc.ts"
 	},
 	"dependencies": {
+		"@graphql-typed-document-node/core": "^3.2.0",
 		"@next/swc-win32-ia32-msvc": "^14.1.2",
 		"@parcel/watcher": "^2.4.1",
 		"clsx": "^2.1.0",
