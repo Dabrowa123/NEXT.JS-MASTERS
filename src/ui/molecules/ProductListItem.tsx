@@ -1,18 +1,23 @@
+import Link from "next/link";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
-import { type ProductItemType } from "@/types";
+import { type ProductListItemFragmentFragment } from "@/gql/graphql";
 
 type ProductListItemProps = {
-	product: ProductItemType;
+	product: ProductListItemFragmentFragment;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {
 	return (
 		<li>
-			<a href={`/product/${product.id}`}>
-				<ProductCoverImage src={product.image} alt={product.title} />
-				<ProductListItemDescription product={product} />
-			</a>
+			<Link href={`/product/${product.id}`}>
+				<article>
+					{product.images[0] && (
+						<ProductCoverImage src={product.images[0].url} alt={product.name} />
+					)}
+					<ProductListItemDescription product={product} />
+				</article>
+			</Link>
 		</li>
 	);
 };
