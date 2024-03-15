@@ -13,7 +13,7 @@ export const size = {
 };
 export const contentType = "image/png";
 
-export async function Image({ params }: { params: { productId: string } }) {
+export default async function Image({ params }: { params: { productId: string } }) {
 	const { product } = await executeGraphql(ProductGetByIdDocument, {
 		id: params.productId,
 	});
