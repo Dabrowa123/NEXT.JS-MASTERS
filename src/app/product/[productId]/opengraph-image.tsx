@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import NextImage from "next/image";
 import { ImageResponse } from "next/og";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ProductGetByIdDocument } from "@/gql/graphql";
@@ -19,12 +20,16 @@ export async function Image({ params }: { params: { productId: string } }) {
 	if (!product) {
 		notFound();
 	}
+
 	return new ImageResponse(
 		(
 			<div style={{ flexDirection: "row", alignItems: "center" }}>
-				<img
-					src={{ uri: product.images[0].url }}
-					style={{ width: 100, height: 100, marginRight: 10 }}
+				<NextImage
+					src={product.images[0].url}
+					alt={product.name}
+					width={100}
+					height={100}
+					style={{ marginRight: 10 }}
 				/>
 				<div>
 					<p style={{ fontSize: 18, fontWeight: "bold" }}>{product.name}</p>
