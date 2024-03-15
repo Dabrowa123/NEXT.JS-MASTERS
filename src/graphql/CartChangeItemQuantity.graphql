@@ -1,0 +1,13 @@
+# mutation CartChangeItemQuantity($quantity: Int!, $itemId: ID!) {
+# 	updateOrderItem(data: { quantity: $quantity }, where: { id: $itemId }) {
+# 		quantity
+# 	}
+# }
+
+mutation CartChangeItemQuantity($id: ID!, $productId: ID!, $quantity: Int!) {
+	cartChangeItemQuantity(id: $id, productId: $productId, quantity: $quantity) {
+		# Możesz wybrać pola, które chcesz otrzymać po wykonaniu mutacji
+		id
+		# Inne pola koszyka, które Cię interesują
+	}
+}

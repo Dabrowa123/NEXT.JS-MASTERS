@@ -1,10 +1,15 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { type Metadata } from "next";
+import { cookies } from "next/headers";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProductsList } from "@/ui/organisms/SuggestedProductsList";
-import { ProductGetByIdDocument } from "@/gql/graphql";
+import {
+	ProductGetByIdDocument,
+	CartAddItemDocument,
+	CartFindOrCreateDocument,
+} from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { getProductsList } from "@/api/products";
 import { AddReviewForm } from "@/ui/atoms/AddReviewForm";
@@ -38,6 +43,24 @@ export const generateMetadata = async ({
 	};
 };
 
+async function getOrCreateCart() {
+	const currentCookieCartId = cookies().get("cartId")?.value;
+	const {
+		cartFindOrCreate: { id },
+	} = await executeGraphql(CartFindOrCreateDocument, {
+		id: currentCookieCartId,
+		input: {
+			items: [],
+		},
+	});
+	if (!id) {
+		throw new Error("Failed to find or create cart");
+	}
+
+	cookies().set("cartId", id);
+	return id;
+}
+
 export default async function SingleProductPage({ params }: { params: { productId: string } }) {
 	const { product } = await executeGraphql(ProductGetByIdDocument, {
 		id: params.productId,
@@ -46,10 +69,32 @@ export default async function SingleProductPage({ params }: { params: { productI
 		notFound();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	async function addProductToCart(cartId: string, productId: string) {
+		const { product } = await executeGraphql(ProductGetByIdDocument, {
+			id: productId,
+		});
+		if (!product) {
+			throw new Error(`Product with id ${productId} not found`);
+		}
+
+		await getOrCreateCart();
+
+		await executeGraphql(CartAddItemDocument, {
+			cartId,
+			input: {
+				item: {
+					productId: product.id,
+					quantity: 1,
+				},
+			},
+		});
+	}
+
 	return (
 		<>
 			<article>
-				<div className="flex gap-6">
+				<form className="flex gap-6">
 					<div className="max-w-l">
 						{product.images[0] && <ProductCoverImage src={product.images[0].url} alt="" />}
 					</div>
@@ -58,7 +103,16 @@ export default async function SingleProductPage({ params }: { params: { productI
 						<ProductListItemDescription product={product} />
 						<p className="text-lg font-medium text-blue-950">{product.description}</p>
 					</div>
-				</div>
+
+					<input type="text" name="productId" value={product.id} hidden />
+
+					<button
+						type="submit"
+						className="w-full rounded-md border bg-slate-700 px-8 py-3 text-white"
+					>
+						Add to cart
+					</button>
+				</form>
 			</article>
 			<aside data-testid="related-products" className="mt-10">
 				<Suspense fallback={"Loading..."}>

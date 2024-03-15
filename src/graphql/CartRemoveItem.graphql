@@ -1,0 +1,12 @@
+# mutation CartRemoveItem($itemId: ID!) {
+# 	deleteOrderItem(where: { id: $itemId }) {
+# 		id
+# 	}
+# }
+mutation CartRemoveItem($id: ID!, $productId: ID!) {
+	cartRemoveItem(id: $id, productId: $productId) {
+		# Możesz wybrać pola, które chcesz otrzymać po wykonaniu mutacji
+		id
+		# Inne pola koszyka, które Cię interesują
+	}
+}

@@ -1,0 +1,19 @@
+# mutation CartAddItem($cartId: ID!, $productId: ID!, $total: Int!) {
+# 	(
+# 		data: {
+# 			quantity: 1
+# 			total: $total
+# 			order: { connect: { id: $cartId } }
+# 			product: { connect: { id: $productId } }
+# 		}
+# 	) {
+# 		id
+# 	}
+# }
+
+mutation CartAddItem($cartId: ID!, $input: MutationCartAddItemInput!) {
+	cartAddItem(id: $cartId, input: $input) {
+		id
+		# inne interesujące pola zwracane przez mutację
+	}
+}

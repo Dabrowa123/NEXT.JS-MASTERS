@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	"@typescript-eslint/no-misused-promises": [
+		"error",
+		{
+			checksVoidReturn: {
+				attributes: false,
+			},
+		},
+	],
 	experimental: {
 		typedRoutes: true,
+		serverActions: true,
 	},
 	images: {
 		domains: ["static-ourstore.hyperfunctor.com"],
