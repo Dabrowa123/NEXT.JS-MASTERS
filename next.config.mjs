@@ -9,11 +9,11 @@ const nextConfig = {
 	staticPageGenerationTimeout: 300000,
 	async redirects() {
 		return [
-			// {
-			// 	source: "/products",
-			// 	destination: "/products/1",
-			// 	permanent: false,
-			// },
+			{
+				source: "/products",
+				destination: "/products/1",
+				permanent: false,
+			},
 			{
 				source: "/collections",
 				destination: "/collections/summer-vibes",
