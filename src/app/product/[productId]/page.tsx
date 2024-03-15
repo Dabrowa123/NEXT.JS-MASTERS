@@ -7,6 +7,7 @@ import { SuggestedProductsList } from "@/ui/organisms/SuggestedProductsList";
 import { ProductGetByIdDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { getProductsList } from "@/api/products";
+import { AddReviewForm } from "@/ui/atoms/AddReviewForm";
 
 export const generateStaticParams = async () => {
 	const products = await getProductsList();
@@ -64,6 +65,7 @@ export default async function SingleProductPage({ params }: { params: { productI
 					<SuggestedProductsList />
 				</Suspense>
 			</aside>
+			<AddReviewForm />
 		</>
 	);
 }
