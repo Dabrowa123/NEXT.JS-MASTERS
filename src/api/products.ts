@@ -1,4 +1,12 @@
-import { ProductGetByPageDocument, ProductsGetListDocument } from "@/gql/graphql";
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import {
+	InputMaybe,
+	ProductGetByPageDocument,
+	ProductGetSortedListDocument,
+	ProductSortBy,
+	ProductsGetListDocument,
+	SortDirection,
+} from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 
 export const getProductsList = async () => {
@@ -6,16 +14,22 @@ export const getProductsList = async () => {
 	return graphqlResponse.products.data;
 };
 
-// export const getProductById = async (_id: ProductListItemFragmentFragment["id"]) => {
-// 	const graphqlResponse = await executeGraphql(ProductGetByIdDocument, { id: _id });
-// 	return graphqlResponse.product;
-// };
+export const getSortedProductsList = async (
+	take: number = 10,
+	skip: number = 0,
+	order: InputMaybe<SortDirection> | undefined = undefined,
+	orderBy: InputMaybe<ProductSortBy> | undefined = undefined,
+) => {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+	const gqlResponse = await executeGraphql(ProductGetSortedListDocument, {
+		take,
+		skip,
+		order,
+		orderBy,
+	});
 
-// export const getProductById = async (id: ProductResponseItem["id"]) => {
-// 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-// 	const productResponse = (await res.json()) as ProductResponseItem;
-// 	return productResponseItemToProductItemType(productResponse);
-// };
+	return gqlResponse;
+};
 
 export const getProductsByPage = async (page: number) => {
 	const productsPerPage = 4;

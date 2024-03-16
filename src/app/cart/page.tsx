@@ -1,51 +1,36 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { executeGraphql } from "@/api/graphqlApi";
-import { CartFindOrCreateDocument, CartGetItemsByCartIdDocument } from "@/gql/graphql";
-import { formatMoney } from "@/utils";
+import { CartFindOrCreateDocument } from "@/gql/graphql";
+import { ChangeQuantity } from "@/app/cart/ChangeQuantity";
 
 export default async function CartPage() {
 	const currentCookieCartId = cookies().get("cartId")?.value;
-
 	if (!currentCookieCartId) {
 		redirect("/");
 	}
 
-	async function getOrCreateCart() {
+	async function getCart() {
+		"use server";
+
 		const {
-			cartFindOrCreate: { id },
+			cartFindOrCreate: { id, items },
 		} = await executeGraphql(CartFindOrCreateDocument, {
 			id: currentCookieCartId,
-			input: {
-				items: [],
-			},
 		});
-		if (!id) {
-			throw new Error("Failed to find or create cart");
-		}
 
-		cookies().set("cartId", id);
-		return id;
+		return { id, items };
 	}
 
-	const cartId = await getOrCreateCart();
-
-	if (!cartId) {
-		redirect("/");
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-	const { cart: cartData } = await executeGraphql(CartGetItemsByCartIdDocument, {
-		id: cartId,
-	});
+	const { id, items } = await getCart();
 
 	return (
 		<div>
-			<h1>Order #{cartId} summary</h1>
+			<h1>Cart summary</h1>
 			<table>
 				<thead>
 					<tr>
@@ -55,15 +40,21 @@ export default async function CartPage() {
 					</tr>
 				</thead>
 				<tbody>
-					{cartData?.items.map((item) => {
-						if (!item.product) {
+					{items.map((item) => {
+						if (!item) {
 							return null;
 						}
 						return (
 							<tr key={item.product.id}>
 								<td>{item.product.name}</td>
-								<td>{item.quantity}</td>
-								<td>{formatMoney(item.product.price)}</td>
+								<td>
+									<ChangeQuantity
+										productId={item.product.id}
+										quantity={item.quantity}
+										cartId={id}
+									/>
+								</td>
+								<td>{item.product.price}</td>
 							</tr>
 						);
 					})}

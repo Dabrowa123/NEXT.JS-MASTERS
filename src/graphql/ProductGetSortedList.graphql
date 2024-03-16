@@ -1,0 +1,27 @@
+query ProductGetSortedList(
+	$take: Int!
+	$skip: Int!
+	$order: SortDirection
+	$orderBy: ProductSortBy
+) {
+	products(take: $take, skip: $skip, order: $order, orderBy: $orderBy) {
+		data {
+			id
+			name
+			description
+			images {
+				url
+				alt
+			}
+			price
+			categories {
+				name
+			}
+			rating
+		}
+		meta {
+			count
+			total
+		}
+	}
+}

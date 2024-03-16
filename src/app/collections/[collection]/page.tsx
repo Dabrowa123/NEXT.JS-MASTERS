@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { executeGraphql } from "@/api/graphqlApi";
-import { ProductsGetByCollectionDocument } from "@/gql/graphql";
+import { type Product, ProductsGetByCollectionDocument } from "@/gql/graphql";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { Collections } from "@/ui/molecules/Collections";
 
@@ -30,7 +30,7 @@ export default async function ProductCollectionsPage({
 			<div>
 				<Collections />
 				<h1 role="heading">Collections</h1>
-				<ProductList products={products} />
+				<ProductList products={products as Product[]} />
 			</div>
 		</>
 	);

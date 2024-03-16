@@ -298,13 +298,19 @@ export type CartChangeItemQuantityMutationVariables = Exact<{
 
 export type CartChangeItemQuantityMutation = { cartChangeItemQuantity: { id: string } };
 
-export type CartFindOrCreateMutationVariables = Exact<{
-  id?: InputMaybe<Scalars['ID']['input']>;
-  input: MutationCartFindOrCreateInput;
+export type CartCompleteMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
 }>;
 
 
-export type CartFindOrCreateMutation = { cartFindOrCreate: { id: string } };
+export type CartCompleteMutation = { cartComplete: { createdAt: unknown, id: string, lines: unknown, status: OrderStatus, totalAmount: number, updatedAt: unknown } };
+
+export type CartFindOrCreateMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type CartFindOrCreateMutation = { cartFindOrCreate: { id: string, items: Array<{ quantity: number, product: { id: string, name: string, price: number } }> } };
 
 export type CartRemoveItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -320,6 +326,16 @@ export type ProductGetByIdQueryVariables = Exact<{
 
 
 export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
+
+export type ProductGetSortedListQueryVariables = Exact<{
+  take: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+  order?: InputMaybe<SortDirection>;
+  orderBy?: InputMaybe<ProductSortBy>;
+}>;
+
+
+export type ProductGetSortedListQuery = { products: { data: Array<{ id: string, name: string, description: string, price: number, rating?: number | null, images: Array<{ url: string, alt: string }>, categories: Array<{ name: string }> }>, meta: { count: number, total: number } } };
 
 export type ProductListItemFragmentFragment = { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
@@ -412,9 +428,29 @@ export const CartChangeItemQuantityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CartChangeItemQuantityMutation, CartChangeItemQuantityMutationVariables>;
+export const CartCompleteDocument = new TypedDocumentString(`
+    mutation CartComplete($cartId: ID!) {
+  cartComplete(cartId: $cartId, userEmail: "") {
+    createdAt
+    id
+    lines
+    status
+    totalAmount
+    updatedAt
+  }
+}
+    `) as unknown as TypedDocumentString<CartCompleteMutation, CartCompleteMutationVariables>;
 export const CartFindOrCreateDocument = new TypedDocumentString(`
-    mutation CartFindOrCreate($id: ID, $input: MutationCartFindOrCreateInput!) {
-  cartFindOrCreate(id: $id, input: $input) {
+    mutation CartFindOrCreate($id: ID) {
+  cartFindOrCreate(id: $id, input: {}) {
+    items {
+      product {
+        id
+        name
+        price
+      }
+      quantity
+    }
     id
   }
 }
@@ -444,6 +480,30 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   }
   price
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
+export const ProductGetSortedListDocument = new TypedDocumentString(`
+    query ProductGetSortedList($take: Int!, $skip: Int!, $order: SortDirection, $orderBy: ProductSortBy) {
+  products(take: $take, skip: $skip, order: $order, orderBy: $orderBy) {
+    data {
+      id
+      name
+      description
+      images {
+        url
+        alt
+      }
+      price
+      categories {
+        name
+      }
+      rating
+    }
+    meta {
+      count
+      total
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductGetSortedListQuery, ProductGetSortedListQueryVariables>;
 export const ProductsGetByCategoryDocument = new TypedDocumentString(`
     query ProductsGetByCategory($slug: String!) {
   category(slug: $slug) {

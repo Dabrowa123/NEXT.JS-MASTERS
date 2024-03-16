@@ -1,12 +1,13 @@
-# mutation CartCreate {
-# 	createOrder(data: { total: 0 }) {
-# 		id
-# 	}
-# }
-mutation CartFindOrCreate($id: ID, $input: MutationCartFindOrCreateInput!) {
-	cartFindOrCreate(id: $id, input: $input) {
-		# Możesz wybrać pola, które chcesz otrzymać po wykonaniu mutacji
+mutation CartFindOrCreate($id: ID) {
+	cartFindOrCreate(id: $id, input: {}) {
+		items {
+			product {
+				id
+				name
+				price
+			}
+			quantity
+		}
 		id
-		# Inne pola koszyka, które Cię interesują
 	}
 }

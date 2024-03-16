@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ProductList } from "@/ui/organisms/ProductList";
-import { ProductsGetBySearchDocument } from "@/gql/graphql";
+import { type Product, ProductsGetBySearchDocument } from "@/gql/graphql";
 
 export default async function SearchPage({ searchParams }: { searchParams: { query: string } }) {
 	const graphqlResponse = await executeGraphql(ProductsGetBySearchDocument, {
@@ -12,9 +12,5 @@ export default async function SearchPage({ searchParams }: { searchParams: { que
 	}
 	const products = graphqlResponse.products.data;
 
-	return (
-		<>
-			{products &&<ProductList products={products} />}
-		</>
-	);
+	return <>{products && <ProductList products={products as Product[]} />}</>;
 }

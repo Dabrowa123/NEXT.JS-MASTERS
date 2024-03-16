@@ -1,12 +1,12 @@
-import { type ProductListItemFragmentFragment } from "@/gql/graphql";
+import { type Product } from "@/gql/graphql";
 import { formatMoney } from "@/utils";
 
 type ProductListItemDescriptionProps = {
-	product: ProductListItemFragmentFragment;
+	product: Product;
 };
 
 export const ProductListItemDescription = ({
-	product: { name, categories, price },
+	product: { name, categories, price, rating },
 }: ProductListItemDescriptionProps) => {
 	return (
 		<>
@@ -16,7 +16,11 @@ export const ProductListItemDescription = ({
 				</div>
 				<p className="text-lg font-bold  text-blue-950">
 					<span className="sr-only">Price: </span>
-					{formatMoney(price / 100)}
+					<span data-testid="product-price">{formatMoney(price / 100)}</span>
+				</p>
+				<p className="text-lg font-bold  text-blue-950">
+					<span className="sr-only">Rating: </span>
+					<span data-testid="product-rating">{rating}</span>
 				</p>
 			</div>
 			<div>

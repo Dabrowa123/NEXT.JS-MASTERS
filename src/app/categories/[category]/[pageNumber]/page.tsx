@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { ProductList } from "@/ui/organisms/ProductList";
-import { ProductsGetByCategoryDocument } from "@/gql/graphql";
+import { type Product, ProductsGetByCategoryDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
 import { CategoryPagination } from "@/ui/molecules/CategoryPagination";
 
@@ -37,7 +37,7 @@ export default async function ProductsCategoryPage({
 		<div>
 			<h1>Categories</h1>
 			<CategoryPagination category={params.category} totalPages={1} />
-			<ProductList products={products} />
+			<ProductList products={products as Product[]} />
 		</div>
 	);
 }

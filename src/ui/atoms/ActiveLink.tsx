@@ -22,7 +22,7 @@ export const ActiveLink = <T extends Route>({
 
 	return (
 		<Link
-			className={clsx(`text-white hover:text-blue-600`, isActive && activeClassName)}
+			className={clsx(`text-black hover:text-blue-600`, isActive && activeClassName)}
 			aria-current={isActive ? "page" : undefined}
 			href={href}
 			role="link"

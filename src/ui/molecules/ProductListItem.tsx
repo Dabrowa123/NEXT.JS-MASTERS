@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
-import { type ProductListItemFragmentFragment } from "@/gql/graphql";
+import { type Product } from "@/gql/graphql";
 
 type ProductListItemProps = {
-	product: ProductListItemFragmentFragment;
+	product: Product;
 };
 
 export const ProductListItem = ({ product }: ProductListItemProps) => {
